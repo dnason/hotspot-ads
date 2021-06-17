@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Internet hotspot - Log in</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- two other colors
+
+<body class="lite">
+<body class="dark">
+
+-->
+
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+
+    <script src="/md5.js"></script>
+    <script>
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+
+    </script>
+    $(endif)
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                    <a href="www.istec.net.ua"> <img src="img/logo.jpg" height=450pt > </a>
+
+                    <script>
+                        var timeleft = 3;
+                        var downloadTimer = setInterval(function(){
+                            if(timeleft <= 0){
+                                clearInterval(downloadTimer);
+                                document.getElementById("countdown").innerHTML = "Подключится";
+                                document.getElementById("countdown").setAttribute('href','$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)');
+                                document.getElementById("countdown").style.opacity='0.8';
+                                document.getElementById("countdown").style.cursor='default';
+                            } else {
+                                document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+                            }
+                        timeleft -= 1;
+                    }, 1000);
+                    </script>
+                    <button id="countdown"><a href="abc">Подождите</a></button>
+                   
+                    
+                    <p class="info $(if error)alert$(endif)">
+                        $(if error == "")Please log in to use the internet hotspot service $(if trial == 'yes')<br />Free trial available, .$(endif)
+                        $(endif)
+
+                        $(if error)$(error)$(endif)
+                    </p>
+               
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
